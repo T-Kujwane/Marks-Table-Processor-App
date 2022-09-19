@@ -5,6 +5,7 @@
 package za.ac.tut.app;
 
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -17,6 +18,26 @@ public class MarksTableProcessorApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Scanner scanner = new Scanner(System.in);
+        
+        String[] tableHeaders = {"Student Number", "SW", "FA 1", "FA 2", "SA", "FM", "RESULT"};
+        int numStudents;
+        do {            
+            System.out.print("How many students exist in the institution? Enter a number between 10 and 50: ");
+            numStudents = scanner.nextInt();
+            
+            if (numStudents < 10 || numStudents > 50){
+                System.out.println("The number " + numStudents + " is not within range. Try again.\n");
+            }
+        } while (numStudents < 10 || numStudents > 50);
+        
+        String[][] marksTable = new String[numStudents][tableHeaders.length];
+        
+        fillUniqueStudentNumbers(marksTable);
+        
+        fillAssessmentMarks(marksTable);
+        
+        displayResults(marksTable, tableHeaders, "Displaying after populating results");
     }
     
     public static int generateRandomNumber(final int MIN, final int MAX){
@@ -76,6 +97,30 @@ public class MarksTableProcessorApp {
                 
                 marksTable[rowCount][colCount] = String.valueOf(randomMark);
             }
+        }
+    }
+    
+    public static void displayResults(String[][] marksTable, String[] headers, String message){
+        System.out.println(message);
+        
+        for (int rowCounter = -1; rowCounter < marksTable.length; rowCounter++){
+            for (int colCounter = 0; colCounter < marksTable[rowCounter].length; colCounter++){
+                String data;
+                
+                if (rowCounter == -1){
+                    data = headers[colCounter];
+                }else {
+                    data = marksTable[rowCounter][colCounter];
+                }
+                
+                if (colCounter == 0){
+                        System.out.print(data + "\t\t");
+                    }else {
+                        System.out.print(data + "\t");
+                    }
+            }
+            
+            System.out.println("");
         }
     }
 }
