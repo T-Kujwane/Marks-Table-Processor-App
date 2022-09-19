@@ -37,6 +37,8 @@ public class MarksTableProcessorApp {
         
         fillAssessmentMarks(marksTable);
         
+        determineFinalMarks(marksTable);
+        
         displayResults(marksTable, tableHeaders, "Displaying after populating results");
     }
     
@@ -100,11 +102,34 @@ public class MarksTableProcessorApp {
         }
     }
     
+    public static void determineFinalMarks(String[][] marksTable){
+        for (int rowCounter = 0; rowCounter < marksTable.length; rowCounter++){
+            int lastMarkIndex = marksTable[rowCounter].length - 3;
+            int finalMark = 0;
+            
+            for (int colCounter = 1; colCounter <= lastMarkIndex; colCounter++){
+                String assessmentMarkStr = marksTable[rowCounter][colCounter];
+                int assmentMark = Integer.parseInt(assessmentMarkStr);
+                double weightedMark;
+                
+                if (colCounter != lastMarkIndex){
+                    weightedMark = (0.2 * assmentMark);
+                }else {
+                    weightedMark = (0.4 * assmentMark);
+                }
+                
+                finalMark += Math.round(weightedMark);
+            }
+            
+            marksTable[rowCounter][lastMarkIndex + 1] = String.valueOf(finalMark);
+        }
+    }
+    
     public static void displayResults(String[][] marksTable, String[] headers, String message){
         System.out.println(message);
         
         for (int rowCounter = -1; rowCounter < marksTable.length; rowCounter++){
-            for (int colCounter = 0; colCounter < marksTable[rowCounter].length; colCounter++){
+            for (int colCounter = 0; colCounter < marksTable[0].length; colCounter++){
                 String data;
                 
                 if (rowCounter == -1){
