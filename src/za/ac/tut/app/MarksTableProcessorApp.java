@@ -41,7 +41,9 @@ public class MarksTableProcessorApp {
         
         determineResults(marksTable);
         
-        displayResults(marksTable, tableHeaders, "Displaying after populating results");
+        sortByFinalMarks(marksTable);
+        
+        displayResults(marksTable, tableHeaders, "Student Marks Table");
     }
     
     public static int generateRandomNumber(final int MIN, final int MAX){
@@ -54,7 +56,7 @@ public class MarksTableProcessorApp {
     public static String generateStudentNumber(int studentNumberLength){
         String studentNumber = "2";
         
-        for (int counter = 0; counter < studentNumberLength; counter++){
+        for (int counter = 0; counter < studentNumberLength - 1; counter++){
             int randomDigit;
             if (counter == 0 || counter == 1){
                 randomDigit = generateRandomNumber(0, 2);
@@ -149,6 +151,22 @@ public class MarksTableProcessorApp {
             }
             
             marksTable[rowCounter][lastIndex] = result;
+        }
+    }
+    
+    public static void sortByFinalMarks(String[][] marksTable){
+        for (int i = 0; i < marksTable.length; i++){
+            for (int j = 0; j < marksTable.length - 1; j++){
+                String[] lowerIndexArray = marksTable[j];
+                String[] upperIndexArray = marksTable[j + 1];
+                
+                int finalMarkIndex = marksTable[j].length - 2;
+                
+                if (Integer.parseInt(lowerIndexArray[finalMarkIndex]) < Integer.parseInt(upperIndexArray[finalMarkIndex])){
+                    marksTable[j] = upperIndexArray;
+                    marksTable[j + 1] = lowerIndexArray;
+                }
+            }
         }
     }
     
