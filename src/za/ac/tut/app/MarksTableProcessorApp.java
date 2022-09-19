@@ -39,6 +39,8 @@ public class MarksTableProcessorApp {
         
         determineFinalMarks(marksTable);
         
+        determineResults(marksTable);
+        
         displayResults(marksTable, tableHeaders, "Displaying after populating results");
     }
     
@@ -122,6 +124,31 @@ public class MarksTableProcessorApp {
             }
             
             marksTable[rowCounter][lastMarkIndex + 1] = String.valueOf(finalMark);
+        }
+    }
+    
+    public static void determineResults(String[][] marksTable){
+        for (int rowCounter = 0; rowCounter < marksTable.length; rowCounter++){
+            int lastIndex = marksTable[rowCounter].length - 1;
+            
+            int finalMark = Integer.parseInt(marksTable[rowCounter][lastIndex - 1]);
+            
+            final int SA = Integer.parseInt(marksTable[rowCounter][lastIndex - 2]);
+            String result;
+            
+            if (SA < 40){
+                result = "FAIL SUBMINIMUM";
+            }else {
+                if (finalMark < 50){
+                    result = "FAIL";
+                }else if (finalMark < 75){
+                    result = "PASS";
+                }else {
+                    result = "PASS DISTINCTION";
+                }
+            }
+            
+            marksTable[rowCounter][lastIndex] = result;
         }
     }
     
